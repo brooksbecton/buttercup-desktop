@@ -1,4 +1,4 @@
-import { app } from 'electron';
+import { app, Menu, Tray } from 'electron';
 import pify from 'pify';
 import log from 'electron-log';
 import jsonStorage from 'electron-json-storage';
@@ -98,6 +98,18 @@ app.on('ready', async () => {
     log.error('Unable to read state json file', err);
   }
   const store = configureStore(state);
+
+  let tray = new Tray(
+    '/home/yaboibrooks/Code/OSS/buttercup-desktop/src/renderer/styles/img/logo.png'
+  );
+  const contextMenu = Menu.buildFromTemplate([
+    { label: 'Item1', type: 'radio' },
+    { label: 'Item2', type: 'radio' },
+    { label: 'Item3', type: 'radio', checked: true },
+    { label: 'Item4', type: 'radio' }
+  ]);
+  tray.setToolTip('This is my application.');
+  tray.setContextMenu(contextMenu);
 
   // Persist Store to Disk
   store.subscribe(() => {
